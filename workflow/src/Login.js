@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import FormControl from "FormControl";
@@ -41,7 +42,9 @@ export default function () {
         <FormField>
           <FormControl type="password" />
         </FormField>
-        <ButtonComponent text="Login" block />
+        <Link to="/workflow">
+          <ButtonComponent text="Login" block />
+        </Link>
       </Form>
     </Section>
   );

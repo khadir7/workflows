@@ -2,17 +2,23 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { MemoryRouter } from "react-router-dom";
 import { createMemoryHistory } from "history";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import reducer from "./actions.js";
 import App from "App";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
 const history = createMemoryHistory();
+const store = createStore(reducer);
 
 ReactDOM.render(
   <React.StrictMode>
-    <MemoryRouter history={history}>
-      <App />
-    </MemoryRouter>
+    <Provider store={store}>
+      <MemoryRouter history={history}>
+        <App />
+      </MemoryRouter>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

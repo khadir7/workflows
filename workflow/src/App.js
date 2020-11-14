@@ -1,13 +1,16 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-// import Login from "components/login";
+import Header from "Header";
 const App = (props) => (
-  <Switch>
-    <Route exact path={"/"}>
-      <div>Home page</div>
-    </Route>
-  </Switch>
+  <>
+    <Header />
+    <Switch>
+      <Route exact path={"/"}>
+        <div>Home page</div>
+      </Route>
+    </Switch>
+  </>
 );
 
 export default App;

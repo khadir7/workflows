@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 import FormControl from "FormControl";
@@ -32,19 +32,28 @@ const Text = styled.div`
 `;
 
 export default function () {
+  const [login, updateLogin] = useState("");
+  const [password, updatePassword] = useState("");
+  let history = useHistory();
+  const handleSubmit = () => {
+    history.push("/workflow");
+  };
   return (
     <Section>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Text>Login</Text>
         <FormField>
-          <FormControl />
+          <FormControl onchange={(e) => updateLogin(e.target.value)} />
         </FormField>
         <FormField>
-          <FormControl type="password" />
+          <FormControl
+            type="password"
+            onchange={(e) => updatePassword(e.target.value)}
+          />
         </FormField>
-        <Link to="/workflow">
-          <ButtonComponent text="Login" block />
-        </Link>
+        {/* <Link to="/workflow"> */}
+        <ButtonComponent text="Login" block />
+        {/* </Link> */}
       </Form>
     </Section>
   );

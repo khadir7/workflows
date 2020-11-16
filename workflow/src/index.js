@@ -4,9 +4,9 @@ import { MemoryRouter } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import reducer from "./actions.js";
+import reducer from "./redux/actions.js";
 import App from "App";
-import "./index.css";
+import "css/index.css";
 import reportWebVitals from "./reportWebVitals";
 
 const history = createMemoryHistory();

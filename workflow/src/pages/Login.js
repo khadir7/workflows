@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
-import FormControl from "FormControl";
-import ButtonComponent from "ButtonComponent";
+import FormControl from "components/FormControl";
+import ButtonComponent from "components/ButtonComponent";
 
 const Section = styled.section`
   position: relative;

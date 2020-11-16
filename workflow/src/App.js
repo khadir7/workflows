@@ -1,10 +1,10 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import Header from "Header";
-import Login from "Login";
-import Workflow from "Workflow";
-import Node from "Node";
+import Header from "components/Header";
+import Login from "pages/Login";
+import Workflow from "pages/Workflow";
+import Node from "pages/Node";
 
 const App = (props) => (
   <>

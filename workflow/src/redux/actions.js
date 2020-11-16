@@ -5,7 +5,7 @@ import {
   setNodes,
   getWorkflowName,
   setWorkflowName,
-} from "storage";
+} from "redux/storage";
 let initialState = {
   wf: [],
   nodes: [],

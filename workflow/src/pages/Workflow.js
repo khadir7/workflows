@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 
-import FormControl from "FormControl";
-import ButtonComponent from "ButtonComponent";
+import FormControl from "components/FormControl";
+import ButtonComponent from "components/ButtonComponent";
 
 const TopSection = styled.section`
   display: flex;

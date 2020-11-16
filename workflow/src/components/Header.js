@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
-import ButtonComponent from "ButtonComponent";
+import ButtonComponent from "components/ButtonComponent";
 
 const HeaderSection = styled.header`
   height: 60px;

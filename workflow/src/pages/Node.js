@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import FormControl from "components/FormControl";
 import ButtonComponent from "components/ButtonComponent";
+import RoundButton from "components/RoundButton";
 
 const colorMap = {
   pending: "gray",
@@ -208,9 +209,9 @@ export default function () {
               defaultValue={node.name}
               onchange={(e) => updateNode(e, node.id, true)}
             />
-            <RoundIcon
+            <RoundButton
               color={colorMap[node.status]}
-              onClick={() => updateNodeStatus(node.status, node.id)}
+              onclick={() => updateNodeStatus(node.status, node.id)}
             />
             <Textarea
               defaultValue={node.desc}

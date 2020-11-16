@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import { BiArrowBack } from "react-icons/bi";
 import styled from "styled-components";
 
 import ButtonComponent from "components/ButtonComponent";
@@ -19,6 +20,10 @@ const Text = styled.div`
   margin-right: auto;
 `;
 
+const Icon = styled.span`
+  padding-right: 10px;
+`;
+
 export default function () {
   const history = useHistory();
   const { pathname } = useLocation();
@@ -30,9 +35,9 @@ export default function () {
   return (
     <HeaderSection>
       {isNodePage ? (
-        <span style={{ paddingRight: "10px" }} onClick={() => history.goBack()}>
-          Back
-        </span>
+        <Icon>
+          <BiArrowBack onClick={() => history.goBack()} />
+        </Icon>
       ) : null}
       <Text>Flow app</Text>
       {showBackIcon ? (

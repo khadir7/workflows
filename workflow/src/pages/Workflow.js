@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import FormControl from "components/FormControl";
 import ButtonComponent from "components/ButtonComponent";
+import RoundButton from "components/RoundButton";
 
 const TopSection = styled.section`
   display: flex;
@@ -33,6 +34,9 @@ const Card = styled.div`
   height: 110px;
   padding: 20px;
   position: relative;
+  &:hover .roundbtn {
+    display: block;
+  }
 `;
 
 const RoundIcon = styled.div`
@@ -71,17 +75,18 @@ const CardComponent = ({ data, deleteWorkflow, changeStatus }) => {
             }}
           >
             <span>{item.status ? "COMPLETED" : "PENDING"}</span>
-            <span
-              onClick={() => changeStatus(item.status, item.id)}
-              style={{
-                height: "35px",
-                width: "35px",
-                borderRadius: "50%",
-                background: item.status ? "green" : "gray",
-              }}
-            ></span>
+            <RoundButton
+              color={item.status ? "green" : "gray"}
+              isFixed={false}
+              onclick={() => changeStatus(item.status, item.id)}
+            />
           </div>
-          <RoundIcon onClick={() => deleteWorkflow(item.id)} />
+          <RoundButton
+            color="red"
+            isCheck={false}
+            hover={true}
+            onclick={() => deleteWorkflow(item.id)}
+          />
         </Card>
       ))}
     </>

@@ -55,8 +55,45 @@ const getStatus = (status, nodes = []) => {
   return status ? false : nodes.every((node) => node.status === "completed");
 };
 
+const CardComponent = ({ data, deleteWorkflow, changeStatus }) => {
+  return (
+    <>
+      {data.map((item, index) => (
+        <Card key={index}>
+          <Link to={`/node/${item.id}`}>
+            <div>{item.name}</div>
+          </Link>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              paddingTop: "10px",
+            }}
+          >
+            <span>{item.status ? "COMPLETED" : "PENDING"}</span>
+            <span
+              onClick={() => changeStatus(item.status, item.id)}
+              style={{
+                height: "35px",
+                width: "35px",
+                borderRadius: "50%",
+                background: item.status ? "green" : "gray",
+              }}
+            ></span>
+          </div>
+          <RoundIcon onClick={() => deleteWorkflow(item.id)} />
+        </Card>
+      ))}
+    </>
+  );
+};
+
 export default function (props) {
   const [workflows, setWorkflows] = useState([]);
+  const [filteredWorkflows, setFilteredWorkflows] = useState([]);
+  const [isFilterMode, setFilterMode] = useState(false);
+  const [selectFilter, setSelectFilter] = useState("all");
+  const [searchInput, setSearchInput] = useState("");
   const globalState = useSelector((state) => state);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -73,6 +110,9 @@ export default function (props) {
       payload: workflows,
     });
   }, [workflows]);
+  useEffect(() => {
+    handleFilters();
+  }, [selectFilter, searchInput]);
   const createWorkFlow = () => {
     setWorkflows([
       ...workflows,
@@ -91,6 +131,9 @@ export default function (props) {
     setWorkflows((workflows) =>
       workflows.filter((workflow) => workflow.id !== id)
     );
+    setFilteredWorkflows((filterWorkflows) =>
+      filterWorkflows.filter((workflow) => workflow.id !== id)
+    );
   };
   const changeStatus = (status, id) => {
     setWorkflows((workflows) =>
@@ -103,13 +146,46 @@ export default function (props) {
         })
       )
     );
+    setFilteredWorkflows((filteredWorkflows) =>
+      filteredWorkflows.map((workflow) =>
+        Object.assign(workflow, {
+          status:
+            id === workflow.id
+              ? getStatus(status, workflow.nodes)
+              : workflow.status,
+        })
+      )
+    );
+    handleFilters();
+  };
+  const filterWorkflows = (e) => {
+    let value = e.target.value.trim();
+    setSearchInput(value);
+  };
+  const handleFilters = () => {
+    setFilterMode(selectFilter === "all" && !searchInput ? false : true);
+    setFilteredWorkflows(() =>
+      workflows.filter(
+        (workflow) =>
+          workflow.name.toLowerCase().includes(searchInput.toLowerCase()) &&
+          workflow.status ===
+            (selectFilter === "completed"
+              ? true
+              : selectFilter === "pending"
+              ? false
+              : workflow.status)
+      )
+    );
+  };
+  const handleSelectChange = (e) => {
+    let value = e.target.value.toLowerCase();
+    setSelectFilter(value);
   };
   return (
     <>
       <TopSection>
-        <FormControl block={false} />
-        <Select>
-          <option>Filter</option>
+        <FormControl block={false} onchange={(e) => filterWorkflows(e)} />
+        <Select onChange={(e) => handleSelectChange(e)}>
           <option>ALL</option>
           <option>COMPLETED</option>
           <option>PENDING</option>
@@ -121,32 +197,11 @@ export default function (props) {
         />
       </TopSection>
       <MainSection>
-        {workflows.map((workflow, index) => (
-          <Card key={index}>
-            <Link to={`/node/${workflow.id}`}>
-              <div>{workflow.name}</div>
-            </Link>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                paddingTop: "10px",
-              }}
-            >
-              <span>{workflow.status ? "COMPLETED" : "PENDING"}</span>
-              <span
-                onClick={() => changeStatus(workflow.status, workflow.id)}
-                style={{
-                  height: "35px",
-                  width: "35px",
-                  borderRadius: "50%",
-                  background: workflow.status ? "green" : "gray",
-                }}
-              ></span>
-            </div>
-            <RoundIcon onClick={() => deleteWorkflow(workflow.id)} />
-          </Card>
-        ))}
+        <CardComponent
+          data={isFilterMode ? filteredWorkflows : workflows}
+          deleteWorkflow={deleteWorkflow}
+          changeStatus={changeStatus}
+        />
       </MainSection>
     </>
   );

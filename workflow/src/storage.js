@@ -18,7 +18,9 @@ export function getWorkflowName(id) {
 export function setWorkflowName({ name, id }) {
   let store = getStore();
   let workflows = store.wf.map((wf) =>
-    Object.assign(wf, { name: name || wf.name })
+    Object.assign(wf, {
+      name: wf.id === id ? name || wf.name : wf.name,
+    })
   );
   localStorage.setItem("flowapp", JSON.stringify({ wf: workflows }));
 }

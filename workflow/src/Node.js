@@ -36,7 +36,6 @@ const MainSection = styled.section`
 
 const Card = styled.div`
   border: 1px solid black;
-  height: 110px;
   padding: 20px;
   position: relative;
 `;
@@ -51,6 +50,14 @@ const RoundIcon = styled.div`
   transform: translate(50%, -50%);
   border-radius: 50%;
   background: ${(props) => props.color};
+`;
+
+const Textarea = styled.textarea`
+  height: 150px;
+  resize: none;
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
 `;
 
 const shuffle = (array) => {
@@ -131,6 +138,7 @@ export default function () {
           name: `Task ${nodes.length + 1}`,
           id: nodes[nodes.length - 1] ? nodes[nodes.length - 1]["id"] + 1 : 1,
           status: "pending",
+          desc: `Description about Task ${nodes.length + 1}`,
         },
       ],
     ]);
@@ -161,6 +169,17 @@ export default function () {
       )
     );
   };
+  const updateNode = (e, id, isInput = false) => {
+    let field = isInput ? "name" : "desc";
+    let value = e.target.value.trim();
+    setNodes((nodes) =>
+      nodes.map((node) =>
+        Object.assign(node, {
+          [field]: node.id === id ? value : node[field],
+        })
+      )
+    );
+  };
   return (
     <>
       <TopSection>
@@ -185,10 +204,17 @@ export default function () {
       <MainSection>
         {nodes.map((node, index) => (
           <Card key={index}>
-            <FormControl defaultValue={node.name} />
+            <FormControl
+              defaultValue={node.name}
+              onchange={(e) => updateNode(e, node.id, true)}
+            />
             <RoundIcon
               color={colorMap[node.status]}
               onClick={() => updateNodeStatus(node.status, node.id)}
+            />
+            <Textarea
+              defaultValue={node.desc}
+              onChange={(e) => updateNode(e, node.id)}
             />
           </Card>
         ))}

@@ -34,9 +34,16 @@ const Text = styled.div`
 export default function () {
   const [login, updateLogin] = useState("");
   const [password, updatePassword] = useState("");
+  const [isValid, setValid] = useState(true);
   let history = useHistory();
-  const handleSubmit = () => {
-    history.push("/workflow");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let isValidEmail = re.test(String(login).toLowerCase());
+    setValid(isValidEmail && password);
+    if (isValidEmail && password) {
+      history.push("/workflow");
+    }
   };
   return (
     <Section>
@@ -51,9 +58,13 @@ export default function () {
             onchange={(e) => updatePassword(e.target.value)}
           />
         </FormField>
-        {/* <Link to="/workflow"> */}
         <ButtonComponent text="Login" block />
-        {/* </Link> */}
+        {isValid ? null : (
+          <div style={{ paddingTop: "15px" }}>
+            Please enter valid email like "alpha@domain.com" and non empty
+            password
+          </div>
+        )}
       </Form>
     </Section>
   );
